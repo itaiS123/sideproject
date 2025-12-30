@@ -6,6 +6,5 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true }
 });
 
-// כאן אנחנו מייצאים את התבנית שנקראת User
 const User = mongoose.model("User", userSchema);
 export default User;

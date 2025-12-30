@@ -33,7 +33,7 @@ export const update = async (req, res) => {
 };
 
 // 4. מחיקת משתמש (Delete)
-export const deleteUser = async (req, res) => { // שיניתי ל-deleteUser כי delete היא מילה שמורה ב-JS
+export const deleteUser = async (req, res) => { 
     try {
         const deletedUser = await User.findByIdAndDelete(req.params.id);
         if (!deletedUser) return res.status(404).json({ message: "משתמש לא נמצא" });
