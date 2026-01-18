@@ -9,6 +9,7 @@ import permissionRoutes from "./src/routes/permissionRoutes.js";
 import userPermissionRoutes from "./src/routes/userPermissionRoutes.js";
 import { requestLogger } from "./src/middleware/logger.js";
 
+
 dotenv.config();
 
 // 2. CREATE THE APP FIRST
@@ -24,9 +25,15 @@ app.use("/api/users", userRoutes);
 app.use("/api/permissions", permissionRoutes);
 app.use("/api/user-permissions", userPermissionRoutes);
 
+// new routes imports
+app.use("/api/users", userRoutes);
+app.use("/api/students", studentRoutes);
+app.use("/api/notebooks", notebookRoutes);
+app.use("/api/pages", pageRoutes);
+
 // 5. CONNECT AND START
 const PORT = process.env.PORT || 3000;
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/sideproject";
+const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/testDB";
 
 mongoose.connect(MONGO_URI)
     .then(() => {
