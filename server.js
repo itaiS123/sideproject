@@ -9,6 +9,10 @@ import permissionRoutes from "./src/routes/permissionRoutes.js";
 import userPermissionRoutes from "./src/routes/userPermissionRoutes.js";
 import { requestLogger } from "./src/middleware/logger.js";
 
+import studentRoutes from "./src/routes/studentRoutes.js";      
+import notebookRoutes from "./src/routes/notebookRoutes.js";    
+import pageRoutes from "./src/routes/pageRoutes.js";           
+
 
 dotenv.config();
 
@@ -31,7 +35,7 @@ app.use("/api/students", studentRoutes);
 app.use("/api/notebooks", notebookRoutes);
 app.use("/api/pages", pageRoutes);
 
-// 5. CONNECT AND START
+// 5. CONNECT AND START THE SERVER
 const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/testDB";
 

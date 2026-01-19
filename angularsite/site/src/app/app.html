@@ -1,12 +1,1 @@
-<div class="container">
-  <h2>הרשמה למערכת</h2>
-  
-  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-    <input type="text" formControlName="username" placeholder="שם משתמש">
-    <input type="email" formControlName="email" placeholder="אימייל">
-    <input type="password" formControlName="password" placeholder="סיסמה">
-    <input type="text" formControlName="tel" placeholder="טלפון">
-    
-    <button type="submit" [disabled]="!userForm.valid">הירשם</button>
-  </form>
-</div>
+<app-login></app-login>
