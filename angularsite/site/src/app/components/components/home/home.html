@@ -1,0 +1,20 @@
+<div class="home-container">
+  <div class="home-card">
+    <div class="welcome-header">
+      <h1>Welcome back, {{ userName }}! 👋</h1>
+      <p>System Status: <span class="status-online">Online</span></p>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn primary-btn" (click)="goToModel()">
+        <span class="icon">🧠</span>
+        Configure AI Model
+      </button>
+
+      <button class="btn secondary-btn" (click)="logout()">
+        <span class="icon">⬅️</span>
+        Logout
+      </button>
+    </div>
+  </div>
+</div>

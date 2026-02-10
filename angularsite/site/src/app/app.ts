@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Login } from './components/components/login/login';
+import { RouterOutlet } from '@angular/router';
+
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ReactiveFormsModule, Login], // חייבים להוסיף כאן את ה-FormsModule
+  imports: [ReactiveFormsModule, Login, RouterOutlet], // חייבים להוסיף כאן את ה-FormsModule
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
