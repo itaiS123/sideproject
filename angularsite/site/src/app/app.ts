@@ -1,34 +1,38 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Login } from './components/components/login/login';
 import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [ReactiveFormsModule, Login, RouterOutlet], // חייבים להוסיף כאן את ה-FormsModule
+  standalone: true,
+  // הסרנו את Login מה-imports כי אנחנו משתמשים ב-RouterOutlet
+  imports: [ReactiveFormsModule, RouterOutlet, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
-  protected readonly client = inject(HttpClient);
+  private client = inject(HttpClient);
 
-  // הגדרת הטופס - אלו השדות שהמשתמש ימלא
-  protected userForm = new FormGroup({
+  // הגדרת הטופס
+  userForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     tel: new FormControl(''),
   });
 
-  // פונקציה שתופעל בלחיצה על הכפתור
   onSubmit() {
     if (this.userForm.valid) {
-      const userData = this.userForm.value; // הנתונים שהמשתמש הקליד
-
+      const userData = this.userForm.value;
       this.client.post('http://localhost:3000/api/users', userData).subscribe({
-        next: (response) => console.log('✅ הצלחנו!', response),
-        error: (err) => console.error('❌ אופס...', err),
+        next: (response) => {
+          console.log('✅ User created!', response);
+          alert('User registered successfully!');
+          this.userForm.reset();
+        },
+        error: (err) => console.error('❌ Error:', err),
       });
     }
   }

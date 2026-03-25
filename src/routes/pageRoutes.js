@@ -1,9 +1,15 @@
 import express from "express";
-import * as pageController from "../controllers/pageController.js";
+import {
+  createPage,
+  getPagesByNotebook,
+} from "../controllers/pageController.js";
 
 const router = express.Router();
 
-router.post("/", pageController.create);
-router.get("/notebook/:notebookId", pageController.getByNotebook);
+// שמירת דף חדש
+router.post("/", createPage);
+
+// שליפת דפים של מחברת מסוימת
+router.get("/notebook/:notebookId", getPagesByNotebook);
 
 export default router;

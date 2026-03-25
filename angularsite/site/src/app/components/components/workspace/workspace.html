@@ -1,0 +1,68 @@
+<div class="workspace-page">
+  <header class="header-section">
+    <h1>Workspace - AI Analysis</h1>
+  </header>
+
+  <div class="main-card">
+    <div class="notebook-status" *ngIf="notebookId">
+      <span class="status-label">Reviewing Notebook:</span>
+      <span class="info-badge">{{ notebookId }}</span>
+    </div>
+
+    <div *ngIf="!is_preview_visible"
+         class="drag-drop-zone"
+         [class.dragging]="is_dragging_file"
+         (dragover)="onDragOver($event)"
+         (dragleave)="onDragLeave()"
+         (drop)="onDrop($event)">
+      <div class="zone-content">
+        <span class="upload-icon">📁</span>
+        <p>Drag and Drop image to transcribe a new page</p>
+      </div>
+    </div>
+
+    <div *ngIf="is_preview_visible"
+         class="preview-box"
+         [ngClass]="{'high-accuracy': model_confidence_score >= 90}">
+
+      <div class="preview-header">
+        <span>Analysis Result ({{model_confidence_score}}%)</span>
+        <button class="btn-new-scan" (click)="createNewScan()">➕ New Scan</button>
+      </div>
+
+      <div *ngIf="!is_in_edit_mode" class="text-display">
+        {{ model_transcription_result }}
+      </div>
+
+      <textarea *ngIf="is_in_edit_mode" [(ngModel)]="temporary_edit_buffer" class="edit-textarea"></textarea>
+
+      <div class="preview-footer">
+        <button *ngIf="!is_in_edit_mode" (click)="start_local_edit()" class="btn-sub edit">Edit Text</button>
+        <button *ngIf="is_in_edit_mode" (click)="save_local_edit()" class="btn-sub save-edit">Confirm</button>
+        <button *ngIf="is_in_edit_mode" (click)="cancel_local_edit()" class="btn-sub cancel-edit">Cancel</button>
+      </div>
+
+      <div class="input-field">
+        <label for="headline">Summary Headline</label>
+        <input id="headline" type="text" [(ngModel)]="nlp_summary_headline" placeholder="Headline...">
+      </div>
+    </div>
+
+    <div class="history-tabs" *ngIf="existing_pages.length > 0">
+      <p>Pages in this notebook:</p>
+      <div class="tabs-list">
+        <button *ngFor="let page of existing_pages; let i = index"
+                (click)="displayPage(page)"
+                class="tab-item">
+          Page {{ existing_pages.length - i }}
+        </button>
+      </div>
+    </div>
+
+    <div class="main-footer-btns">
+      <button class="btn-main back" (click)="go_back_to_home()">⬅ BACK</button>
+      <button class="btn-main save" (click)="save_to_database()">💾 SAVE TO DB</button>
+      <button class="btn-main clear" (click)="clear_workspace()">🗑️ CLEAR</button>
+    </div>
+  </div>
+</div>

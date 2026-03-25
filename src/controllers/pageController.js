@@ -1,22 +1,27 @@
 import Page from "../models/Page.js";
 
-// יצירת דף (הבסיס לכל המערכת)
-export const create = async (req, res) => {
+// יצירת דף חדש
+export const createPage = async (req, res) => {
   try {
-    const newPage = new Page(req.body);
-    await newPage.save();
-    res.status(201).json({ message: "הדף נוצר בהצלחה!", data: newPage });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+    const { notebookId, content, summary, accuracy } = req.body;
+    if (!notebookId || !content) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+    const newPage = new Page({ notebookId, content, summary, accuracy });
+    const savedPage = await newPage.save();
+    res.status(201).json(savedPage);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
-// שליפת דפים של מחברת מסוימת
-export const getByNotebook = async (req, res) => {
+// שליפת דפים לפי מחברת (לצורך Review)
+export const getPagesByNotebook = async (req, res) => {
   try {
-    const pages = await Page.find({ notebookId: req.params.notebookId });
-    res.status(200).json(pages);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const { notebookId } = req.params;
+    const pages = await Page.find({ notebookId }).sort({ createdAt: -1 });
+    res.json(pages);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };

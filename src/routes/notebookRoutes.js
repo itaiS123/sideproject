@@ -1,9 +1,12 @@
 import express from "express";
-import * as notebookController from "../controllers/notebookController.js";
+import {
+  createNotebook,
+  getNotebooksByStudent,
+} from "../controllers/notebookController.js";
 
 const router = express.Router();
 
-router.post("/", notebookController.create);
-router.get("/student/:studentId", notebookController.getStudentNotebooks);
+router.post("/", createNotebook);
+router.get("/student/:studentId", getNotebooksByStudent);
 
 export default router;

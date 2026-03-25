@@ -1,20 +1,32 @@
 import Notebook from "../models/Notebook.js";
+import Page from "../models/Page.js";
 
-export const create = async (req, res) => {
+export const getNotebooksByStudent = async (req, res) => {
   try {
-    const notebook = new Notebook(req.body);
-    await notebook.save();
-    res.status(201).json(notebook);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+    const { studentId } = req.params;
+    const notebooks = await Notebook.find({ studentId }).lean();
+
+    // הוספת ספירת דפים לכל מחברת
+    const notebooksWithCount = await Promise.all(
+      notebooks.map(async (nb) => {
+        const pageCount = await Page.countDocuments({ notebookId: nb._id });
+        return { ...nb, pageCount };
+      })
+    );
+
+    res.json(notebooksWithCount);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
-export const getStudentNotebooks = async (req, res) => {
+export const createNotebook = async (req, res) => {
   try {
-    const notebooks = await Notebook.find({ studentId: req.params.studentId });
-    res.status(200).json(notebooks);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const { name, studentId, description } = req.body;
+    const newNotebook = new Notebook({ name, studentId, description });
+    await newNotebook.save();
+    res.status(201).json(newNotebook);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };

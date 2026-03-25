@@ -1,8 +1,12 @@
 import { Routes } from '@angular/router';
 import { Login } from './components/components/login/login';
 import { Home } from './components/components/home/home';
+import { Workspace } from './components/components/workspace/workspace';
+import { Notebooks } from './components/components/notebooks/notebooks';
 
 export const routes: Routes = [
-  { path: '', component: Login }, // כתובת ריקה מציגה לוגין
-  { path: 'home', component: Home }, // כתובת home מציגה דף בית
+  { path: '', component: Login },
+  { path: 'home', component: Home },
+  { path: 'workspace', component: Workspace },
+  { path: 'notebooks', component: Notebooks },
 ];

@@ -15,18 +15,24 @@ export class Home implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit() {
+    // שליפת שם המשתמש שנשמר ב-Login
     const savedName = localStorage.getItem('userName');
     if (savedName) {
       this.userName = savedName;
     }
   }
 
-  goToModel() {
-    // כאן נעבור לעבודה על ה-Convolutional Layer שביקשת
-    console.log('Navigating to Model configuration...');
-    // this.router.navigate(['/model-settings']);
+  // ניווט לסביבת העבודה (OCR + CNN)
+  goToWorkspace() {
+    this.router.navigate(['/workspace']);
   }
 
+  // ניווט לניהול מחברות (החלק החדש)
+  goToNotebooks() {
+    this.router.navigate(['/notebooks']);
+  }
+
+  // ניקוי נתונים וחזרה למסך הכניסה
   logout() {
     localStorage.clear();
     this.router.navigate(['/']);
